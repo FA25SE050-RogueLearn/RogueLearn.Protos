@@ -10,9 +10,17 @@ service CodeBattleService {
     rpc GetEvents(GetEventsRequest) returns (GetEventsResponse);
 }
 
-message Pagination {
+message PaginationRequest {
     int32 page_size = 1;
     int32 page_index = 2;
+}
+
+message PaginationResult {
+    int32 page_size = 1;
+    int32 page_index = 2;
+    int32 total_pages = 3;
+    int32 has_next_page = 4;
+    int32 has_previous_page = 5;
 }
 
 message Status {
@@ -39,10 +47,11 @@ message Event {
 }
 
 message GetEventsRequest {
-    Pagination pagination = 1;
+    PaginationRequest pagination_request = 1;
 }
 
 message GetEventsResponse {
     Status status = 1;
-    repeated Event events = 2;
+    PaginationResult pagination_result = 2;
+    repeated Event events = 3;
 }
