@@ -7,51 +7,103 @@ package code_battle;
 import "google/protobuf/timestamp.proto";
 
 service CodeBattleService {
-    rpc GetEvents(GetEventsRequest) returns (GetEventsResponse);
+  rpc GetEvents(GetEventsRequest) returns (GetEventsResponse);
+  rpc SubmitCodeSolution(SubmitCodeSolutionRequest)
+      returns (SubmitCodeSolutionResponse);
+  rpc GetUserSubmissions(GetUserSubmissionsRequest)
+      returns (GetUserSubmissionsResponse);
 }
 
 message PaginationRequest {
-    int32 page_size = 1;
-    int32 page_index = 2;
+  int32 page_size = 1;
+  int32 page_index = 2;
 }
 
 message PaginationResult {
-    int32 page_size = 1;
-    int32 page_index = 2;
-    int32 total_pages = 3;
-    int32 has_next_page = 4;
-    int32 has_previous_page = 5;
+  int32 page_size = 1;
+  int32 page_index = 2;
+  int32 total_pages = 3;
+  int32 has_next_page = 4;
+  int32 has_previous_page = 5;
 }
 
 message Status {
-    bool success = 1;
-    string message = 2;
-    string error_message = 3;
+  bool success = 1;
+  string message = 2;
+  string error_message = 3;
 }
 
 enum EventType {
-    EVENT_TYPE_UNSPECIFIED = 0;
-    EVENT_TYPE_CODE_BATTLE = 1;
-    EVENT_TYPE_WORKSHOP = 2;
-    EVENT_TYPE_SEMINAR = 3;
-    EVENT_TYPE_SOCIAL = 4;
+  event_unspecified = 0;
+  code_battle = 1;
+  workshop = 2;
+  seminar = 3;
+  social = 4;
 }
 
 message Event {
-    string id = 1;
-    string title = 2;
-    string description = 3;
-    EventType type = 4;
-    google.protobuf.Timestamp start_date = 5;
-    google.protobuf.Timestamp end_date = 6;
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  EventType type = 4;
+  google.protobuf.Timestamp start_date = 5;
+  google.protobuf.Timestamp end_date = 6;
 }
 
-message GetEventsRequest {
-    PaginationRequest pagination_request = 1;
-}
+message GetEventsRequest { PaginationRequest pagination_request = 1; }
 
 message GetEventsResponse {
-    Status status = 1;
-    PaginationResult pagination_result = 2;
-    repeated Event events = 3;
+  Status status = 1;
+  PaginationResult pagination_result = 2;
+  repeated Event events = 3;
+}
+
+enum SubmissionStatus {
+  submission_unspecified = 0;
+  pending = 1;
+  accepted = 2;
+  wrong_answer = 3;
+  limit_exceeded = 4;
+  runtime_error = 5;
+  compilation_error = 6;
+}
+
+message Submission {
+  string id = 1;
+  string user_id = 2;
+  string code_problem_id = 3;
+  string language_id = 4;
+  string event_id = 5;
+  string room_id = 6;
+  string code_submitted = 7;
+  SubmissionStatus status = 8;
+  int32 execution_time_ms = 9;
+  google.protobuf.Timestamp submitted_at = 10;
+  string submitted_guild_id = 11;
+}
+
+message SubmitCodeSolutionRequest {
+  string user_id = 1;
+  string code_problem_id = 2;
+  string language_id = 3;
+  string event_id = 4;
+  string room_id = 5;
+  string code_submitted = 6;
+  string submitted_guild_id = 7;
+}
+
+message SubmitCodeSolutionResponse {
+  Status status = 1;
+  Submission submission = 2;
+}
+
+message GetUserSubmissionsRequest {
+  string user_id = 1;
+  PaginationRequest pagination_request = 2;
+}
+
+message GetUserSubmissionsResponse {
+  Status status = 1;
+  PaginationResult pagination_result = 2;
+  repeated Submission submissions = 3;
 }
