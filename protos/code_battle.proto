@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "github.com/FA25SE050-RogueLearn/RogueLearn.CodeBattle/api";
+option go_package = "github.com/FA25SE050-RogueLearn/RogueLearn.CodeBattle/protos";
 
 package code_battle;
 
