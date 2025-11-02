@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package executor;
+
+option go_package = "github.com/FA25SE050-RogueLearn/RogueLearn.Executor/protos";
+
+service ExecutorService {
+  rpc Execute(ExecuteRequest) returns (ExecuteResponse);
+}
+
+message TestCase {
+  string input = 1;
+  string expected_output = 2;
+}
+
+message ExecuteRequest {
+  string language = 1;
+  string code = 2;
+  string driver_code = 3;
+  string compile_cmd = 4;
+  string run_cmd = 5;
+  string temp_file_dir = 6;
+  string temp_file_name = 7;
+  repeated TestCase test_cases = 8;
+}
+
+message ExecuteResponse {
+  bool success = 1;
+  string stdout = 2;
+  string stderr = 3;
+  string message = 4;
+  string error_type =
+      5; // e.g., "COMPILE_ERROR", "RUNTIME_ERROR", "WRONG_ANSWER"
+  string execution_time_ms = 6;
+}
