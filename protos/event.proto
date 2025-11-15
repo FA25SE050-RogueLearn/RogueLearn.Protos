@@ -1,17 +1,18 @@
 syntax = "proto3";
 
-option go_package = "github.com/FA25SE050-RogueLearn/RogueLearn.CodeBattle/protos";
+option go_package = "github.com/FA25SE050-RogueLearn/RogueLearn.Event/protos";
 
-package code_battle;
+package event;
 
 import "google/protobuf/timestamp.proto";
 
-service CodeBattleService {
+service EventService {
   rpc GetEvents(GetEventsRequest) returns (GetEventsResponse);
   rpc SubmitCodeSolution(SubmitCodeSolutionRequest)
       returns (SubmitCodeSolutionResponse);
   rpc GetUserSubmissions(GetUserSubmissionsRequest)
       returns (GetUserSubmissionsResponse);
+  rpc GetCodeProblems(GetCodeProblemCriteria) returns (CodeProblemResponse);
 }
 
 message PaginationRequest {
@@ -82,6 +83,18 @@ message Submission {
   string submitted_guild_id = 11;
 }
 
+message Tag {
+  string id = 1;
+  string name = 2;
+}
+
+message CodeProblem {
+  string id = 1;
+  string title = 2;
+  int32 difficulty = 3;
+  repeated Tag tags = 4;
+}
+
 message SubmitCodeSolutionRequest {
   string user_id = 1;
   string code_problem_id = 2;
@@ -106,4 +119,17 @@ message GetUserSubmissionsResponse {
   Status status = 1;
   PaginationResult pagination_result = 2;
   repeated Submission submissions = 3;
+}
+
+message GetCodeProblemCriteria {
+  PaginationRequest pagination_request = 1;
+  int32 difficulty = 2;
+  repeated string tag_name = 3;
+  int32 limit = 4;
+}
+
+message CodeProblemResponse {
+  Status status = 1;
+  PaginationResult pagination_result = 2;
+  repeated CodeProblem code_problems = 3;
 }
