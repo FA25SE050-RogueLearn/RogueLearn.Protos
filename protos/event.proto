@@ -80,7 +80,6 @@ message Submission {
   SubmissionStatus status = 8;
   int32 execution_time_ms = 9;
   google.protobuf.Timestamp submitted_at = 10;
-  string submitted_guild_id = 11;
 }
 
 message Tag {
@@ -102,7 +101,6 @@ message SubmitCodeSolutionRequest {
   string event_id = 4;
   string room_id = 5;
   string code_submitted = 6;
-  string submitted_guild_id = 7;
 }
 
 message SubmitCodeSolutionResponse {
