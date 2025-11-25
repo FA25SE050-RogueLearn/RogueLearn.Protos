@@ -1,6 +1,7 @@
 syntax = "proto3";
 package user.v1;
 option csharp_namespace = "RogueLearn.User.Api.Grpc";
+option go_package = "github.com/FA25SE050-RogueLearn/RogueLearn.User/protos";
 import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
